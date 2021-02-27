@@ -72,7 +72,8 @@ class UserAuthView(viewsets.ViewSet):
         email = data.get('email', None)
         confirmation_code = data.get('confirmation_code', None)
 
-        message_incorrect = "Введенный email или confirmation_code не корректен"
+        message_incorrect = ("Введенный email или confirmation_code "
+                             "не корректен")
         message_unactive = ("Ваш код недействителен. Вы можете "
                             "получить новый код по адресу: '/auth/email/'")
         try:

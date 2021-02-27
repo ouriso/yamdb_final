@@ -2,6 +2,7 @@ version: '3.8'
 
 volumes:
   postgres_data:
+  static_volume:
 
 services:
   db:
@@ -11,11 +12,22 @@ services:
     env_file:
       - ./.env
   web:
-    build: .
+    image: "${DOCKER_USERNAME}/api_yamdb:latest"
     restart: always
-    ports:
-      - "8000:8000"
+    volumes:
+      - static_volume:/code/static
+    expose:
+      - "8000"
     depends_on:
       - db
     env_file:
       - ./.env
+  nginx:
+    build: ./nginx
+    restart: always
+    volumes:
+      - static_volume:/code/static
+    ports:
+      - "1337:80"
+    depends_on:
+      - web
