@@ -23,11 +23,13 @@ services:
     env_file:
       - ./.env
   nginx:
-    build: ./nginx
+    image: nginx:1.19.7
     restart: always
     volumes:
+      - ./nginx:/etc/nginx/conf.d
       - static_volume:/code/static
+      - static_volume:/code/media
     ports:
-      - "1337:80"
+      - "80:80"
     depends_on:
       - web
