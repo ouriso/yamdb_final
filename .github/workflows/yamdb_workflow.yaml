@@ -1,6 +1,8 @@
 name: yamdb workflow
 
-on: [push]
+on:
+  push:
+    branches: [ master ]
 
 jobs:
   tests:
@@ -47,17 +49,41 @@ jobs:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
     steps:
+    - uses: actions/checkout@v2
+    - name: prepare files to copying
+      run: |
+        mkdir ../to_vm
+        cp -TR ./nginx ../to_vm
+        cp -TR ./docker-compose.yaml ../to_vm
+        tar -cvf deploy.tar ../to_vm/
+
+    - name: copying files from the repository to VM
+      uses: appleboy/scp-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.KEY }}
+        source: "deploy.tar"
+        target: "~/api_yamdb"
+
     - name: executing remote ssh commands to deploy
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER }}
         key: ${{ secrets.SSH_KEY }}
-        passphrase: ${{ secrets.PASSPHRASE }}
         script: |
-          sudo docker pull ${{ secrets.DOCKER_USERNAME }}/api_yamdb
-          sudo docker stop $(sudo docker ps -a -q)
-          sudo docker run --rm -d ${{ secrets.DOCKER_USERNAME }}/api_yamdb
+          export SECRET_KEY=${{ secrets.SECRET_KEY }}
+          export DB_ENGINE=${{ secrets.DB_ENGINE }}
+          export DB_NAME=${{ secrets.DB_NAME }}
+          export POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+          export POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+          export DB_HOST=${{ secrets.DB_HOST }}
+          export DB_PORT=${{ secrets.DB_PORT }}
+          cd api_yamdb
+          sudo touch .env
+          docker-compose up -d --force-recreate --build
+
   send_message:
     runs-on: ubuntu-latest
     needs: deploy
