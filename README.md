@@ -1,5 +1,5 @@
 ## api_yamdb
-![Workflow status](https://github.com/ouriso/yamdb_final/.github/workflows/yamdb_workflow.yaml/badge.svg)
+![Workflow status](https://github.com/ouriso/yamdb_final/actions/workflows/yamdb_workflow.yaml/badge.svg)
 https://github.com/ouriso/yamdb_final/workflows/yamdb_workflow/badge.svg
 
 # Описание
