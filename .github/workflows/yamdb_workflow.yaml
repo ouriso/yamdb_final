@@ -61,7 +61,7 @@ jobs:
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USER }}
-        key: ${{ secrets.KEY }}
+        key: ${{ secrets.SSH_KEY }}
         source: "docker-compose.yaml, nginx/"
         target: "~/api_yamdb"
 
