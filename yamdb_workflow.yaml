@@ -1,8 +1,6 @@
 name: yamdb workflow
 
-on:
-  push:
-    branches: [ master ]
+on: [push]
 
 jobs:
   tests:
@@ -48,6 +46,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build_and_push_to_docker_hub
+    if: github.ref == 'refs/heads/master'
     steps:
     - uses: actions/checkout@v2
     - name: prepare files to copying
