@@ -1,8 +1,5 @@
 ## api_yamdb
 ![Workflow status](https://github.com/ouriso/yamdb_final/actions/workflows/yamdb_workflow.yaml/badge.svg)
-![for test](https://github.com/ouriso/yamdb_final/workflows/yamdb_workflow/badge.svg)
-
-Развернутый проект можно [посмотреть по этой ссылке](http://thehedgehognotes.ml/api/v1/)
 
 # Описание
 Проект **YaMDb** собирает отзывы пользователей на произведения.
