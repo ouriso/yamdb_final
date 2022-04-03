@@ -3,6 +3,15 @@ name: yamdb workflow
 on: [push]
 
 jobs:
+  send_message_on_push:
+    runs-on: ubuntu-latest
+    steps:
+    - name: send message on push
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{ secrets.TELEGRAM_TO }}
+        token: ${{ secrets.TELEGRAM_TOKEN }}
+        message: Пользователь ${{ repo.namespace.login }} только что запушил изменения в {{ repo.name }}!
   tests:
     runs-on: ubuntu-latest
 
